@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Book>
+
+<h1>Book Catalog</h1>
+
+@foreach (var book in Model)
+{
+    <div>
+        <h2>@book.Title</h2>
+        <p>Author: @book.Author</p>
+        <p>Genre: @book.Genre</p>
+        <p>Price: @book.Price</p>
+
+        <h3>Comments</h3>
+        <ul>
+            @if (book.Comments != null && book.Comments.Any())
+            {
+                foreach (var comment in book.Comments)
+                {
+                    <li>@comment.Content (Posted on: @comment.CreatedAt)</li>
+                }
+            }
+            else
+            {
+                <li>No comments yet.</li>
+            }
+        </ul>
+
+        <form asp-action="Comment" method="post">
+            <input type="hidden" name="bookId" value="@book.Id" />
+            <input type="text" name="commentText" placeholder="Leave a comment" />
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+}
